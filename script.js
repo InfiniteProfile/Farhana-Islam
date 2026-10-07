@@ -312,7 +312,7 @@ function virtualizeProfiles() {
     let prev = null;
     for (let i = first; i <= last; i++) {
       const row = state.rows.get(i);
-      if (row.previousElementSibling !== prev) {
+      if (row.parentNode !== track || row.previousElementSibling !== prev) {
         track.insertBefore(row, prev ? prev.nextSibling : track.firstChild);
       }
       prev = row;
@@ -399,7 +399,7 @@ function measureLayout() {
   const w = root.clientWidth;
   state.headH = bar.offsetHeight;
   const heightCap = (window.innerHeight - state.headH - INFO_H - GAP) / PHOTO_RATIO;
-  const cardW = Math.round(Math.max(240, Math.min(w - 28, 460, heightCap)));
+  const cardW = Math.round(Math.max(240, Math.min(w - 48, 460, heightCap)));
   const photoH = Math.round(cardW * PHOTO_RATIO);
   const rowH = photoH + INFO_H + GAP;
 
@@ -528,21 +528,32 @@ function initializeImageHandling() {
    Theme
    ===================================================================== */
 
-function applyTheme(theme) {
-  root.dataset.theme = theme;
-  themeBtn.setAttribute("aria-pressed", String(theme === "light"));
-  themeBtn.setAttribute("aria-label", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
+const THEMES = [
+  { id: "ruby",   label: "Ruby Zari",   color: "#1a080d" },
+  { id: "lilac",  label: "Lilac Silver", color: "#1f1628" },
+  { id: "golden", label: "Golden Hour", color: "#f6ead3" }
+];
+
+function applyTheme(id, announce) {
+  const i = Math.max(0, THEMES.findIndex((t) => t.id === id));
+  const theme = THEMES[i];
+  const next = THEMES[(i + 1) % THEMES.length];
+  root.dataset.theme = theme.id;
+  themeBtn.setAttribute("aria-label", `Theme: ${theme.label}. Switch to ${next.label}`);
+  themeBtn.title = `Theme: ${theme.label}`;
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", theme === "light" ? "#f8eedd" : "#150810");
-  try { localStorage.setItem("infinite-theme", theme); } catch (e) { /* ignore */ }
+  if (meta) meta.setAttribute("content", theme.color);
+  try { localStorage.setItem("profile-hub-theme", theme.id); } catch (e) { /* ignore */ }
+  if (announce) say(`Theme: ${theme.label}`);
 }
 
 function initializeTheme() {
   let saved = null;
-  try { saved = localStorage.getItem("infinite-theme"); } catch (e) { /* ignore */ }
-  applyTheme(saved === "light" ? "light" : "dark");
+  try { saved = localStorage.getItem("profile-hub-theme"); } catch (e) { /* ignore */ }
+  applyTheme(saved || "ruby", false);
   themeBtn.addEventListener("click", () => {
-    applyTheme(root.dataset.theme === "light" ? "dark" : "light");
+    const i = THEMES.findIndex((t) => t.id === root.dataset.theme);
+    applyTheme(THEMES[(i + 1) % THEMES.length].id, true);
   });
 }
 
