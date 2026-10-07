@@ -43,7 +43,7 @@ const OTHER_NAMES = [
 ];
 
 /* ---------- Layout / virtualization constants ---------- */
-const INFO_H = 104;        // must match --info-h
+const INFO_H = 112;        // must match --info-h
 const GAP = 32;            // must match --gap
 const PHOTO_RATIO = 1.25;  // photo frame is always 4:5 → stable row height
 const VIRTUAL_ROWS = 3000; // rows in the finite scroll window
@@ -533,7 +533,7 @@ function applyTheme(theme) {
   themeBtn.setAttribute("aria-pressed", String(theme === "light"));
   themeBtn.setAttribute("aria-label", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", theme === "light" ? "#f3eee6" : "#09080a");
+  if (meta) meta.setAttribute("content", theme === "light" ? "#f8eedd" : "#150810");
   try { localStorage.setItem("infinite-theme", theme); } catch (e) { /* ignore */ }
 }
 
