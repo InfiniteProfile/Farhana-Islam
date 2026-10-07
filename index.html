@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Infinite ∞ — Farhana Islam</title>
+  <meta name="description" content="An endless, algorithmically generated universe of profiles. Scroll forever, or jump to any profile number.">
+  <meta name="theme-color" content="#09080a">
+  <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="bar" id="bar">
+    <div class="bar-main">
+      <h1 class="brand">Infinite<span class="brand-mark" aria-hidden="true">∞</span></h1>
+
+      <form class="search" id="searchForm" role="search" autocomplete="off">
+        <label class="sr" for="q">Profile number</label>
+        <input id="q" name="q" type="text" inputmode="numeric" enterkeyhint="go"
+               placeholder="Go to profile number" spellcheck="false" autocapitalize="off">
+        <button type="submit" class="btn btn-go">Go</button>
+      </form>
+
+      <button type="button" class="btn btn-icon" id="themeBtn" aria-pressed="false" aria-label="Switch to light theme">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18V3z"/><circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
+
+    <div class="bar-sub">
+      <span class="sub-label">Viewing</span>
+      <span class="current" id="current" aria-label="Current profile number">#1</span>
+      <span class="msg" id="msg" role="status" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <main id="track" role="feed" aria-label="Infinite profile feed"></main>
+
+  <button type="button" class="btn top" id="topBtn" hidden aria-label="Back to profile 1">
+    <span aria-hidden="true">↑</span> #1
+  </button>
+
+  <noscript><p class="noscript">The infinite profile feed needs JavaScript to run.</p></noscript>
+</body>
+</html>
